@@ -1,18 +1,29 @@
-create database ecommerce;
--- drop database ecommerce;
+create database if not exists ecommerce;
 use ecommerce;
 
 create table customer(
 	idCustomer int auto_increment primary key,
-    Fname varchar(15),
-    Minit char(3),
-    Lname varchar(20),
-    CPF char(11) not null,
+    Cname varchar(100),
     Address varchar(255),
-    constraint unique_cpf_customer unique (CPF)
+    Contact char(11)
 );
 
 alter table customer auto_increment=1;
+
+create table customerPF(
+	idCustomerPF int,
+    CPF char(9) unique not null,
+	constraint fk_customer_pf foreign key (idCustomerPF) references customer(idCustomer)
+		on update cascade
+);
+
+create table customerPJ(
+	idCustomerPJ int,
+    TradeMark varchar(45),
+    CNPJ char(15) unique not null,
+	constraint fk_customer_pj foreign key (idCustomerPJ) references customer(idCustomer)
+		on update cascade
+);
 
 create table product(
 	idProduct int auto_increment primary key,
@@ -22,27 +33,33 @@ create table product(
     Pdescription varchar(255)
 );
 
--- para ser continuado no desafio: termine de implementar a tabela e crie a conexão com as tabelas necessárias
--- além disso, reflita essa modificação no diagrama de esquema relacional
--- criar constraints relacionadas ao pagamento
--- AINDA NÃO CRIADA
 create table payments(
-	idCustomer int,
-    idPayment int,
-    PaymentMethod enum ('credit', 'debit', 'slip'),
-    availableLimit float,
-    primary key(idCustomer, idPayment)    
+	idPayment int,
+    idCustomerP int,
+    PaymentMethod enum ('credit', 'debit', 'slip') not null,
+    constraint fk_payment foreign key (idCustomerP) references customer(idCustomer)
+		on update cascade,
+    primary key(idCustomerP, idPayment)    
+);
+
+create table delivery(
+	idDelivery int auto_increment primary key,
+    DeliverStatus ENUM('preparing', 'on the way', 'delivered') default 'preparing',
+    TrackCode varchar(45) unique
 );
 
 create table orders(
 	idOrder int auto_increment primary key,
     idOrderCustomer int,
+    idOrderDelivery int,
     orderStatus enum('Cancelled', 'Confirmed', 'In Progress') default 'In Progress',
     orderDescription varchar(255),
     shipCost float default 10,
     slipPayment boolean default false,
     -- idPayment
     constraint fk_orders_customer foreign key (idOrderCustomer) references customer(idCustomer)
+		on update cascade,
+	constraint fk_orders_delivery foreign key (idOrderDelivery) references delivery(idDelivery)
 		on update cascade
 );
 
