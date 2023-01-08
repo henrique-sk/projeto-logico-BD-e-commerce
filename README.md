@@ -1,7 +1,9 @@
 # projeto-logico-BD-e-commerce
  
 Descrição.
-Este projeto é um desafio proposto no curso Bancos de Dados SQL e NoSQL do Bootcamp Geração Tech Unimed-BH - Ciência de Dados da plataforma DIO (Digital Innovation One) 
+Este projeto é um desafio proposto no curso Bancos de Dados SQL e NoSQL do Bootcamp Geração Tech Unimed-BH - Ciência de Dados da plataforma DIO (Digital Innovation One).
+
+*Todo o material desenvolvido durante as aulas pode ser encontrado [aqui](https://github.com/henrique-sk/Ciencia_de_Dados-DIO-Geracao_Tech_Unimed_BH).*
 
 ## Objetivo proposto:
 
